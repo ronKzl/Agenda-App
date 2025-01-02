@@ -9,8 +9,11 @@ import {
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function Home() {
+  //later when hook to backend use an id from there
+  
+  const [id, setId] = useState(1)
   const [goal, setGoal] = useState("");
-  const [subtasks, setSubtasks] = useState([{ id: 1, text: "" }]);
+  const [subtasks, setSubtasks] = useState([{ id: 0, text: "I want you to edit me!" }]);
 
   //For later stage add debounce to not trigger update on every key press just when user finishes typing
   // const handleUpdate = useDebouncedCallback((term) => {
@@ -26,14 +29,29 @@ export default function Home() {
   
   //update a new empty subtask for the user to work on 
   function addTask(){
-    let newTask = {id: subtasks[subtasks.length -1].id + 1, text: "" }
+    setId((prevId) => prevId+1)
+    let newTask = {id: id, text: goal }
     let newSubtasks = [...subtasks, newTask]
     setSubtasks(newSubtasks)
+    changeGoal("")
   }
+
+  function removeTask(id: number){
+    setSubtasks((prevState) => prevState.filter((task) => task.id !== id));
+  }
+
+  function updateTask(id: number, text: string){
+    setSubtasks((prevState) => 
+      prevState.map((task) => 
+          task.id === id ? { ...task, text} : task
+      )
+    )
+  }
+
   let tasks = subtasks.map((task) => {
     return (
       <li key={task.id}>
-        <SubTask key={task.id} subTaskNumber={task.id} text={task.text} />
+        <SubTask key={task.id} subTaskNumber={task.id} text={task.text} update={updateTask} remove={removeTask}/>
       </li>
     );
   });
@@ -42,14 +60,15 @@ export default function Home() {
       <label>Current Goal: {goal}</label>
       <br></br>
       <textarea
+        value={goal}
         onChange={(e) => changeGoal(e.target.value)}
         name="goalPrompt"
         placeholder="I want to make..."
-        className="pl-2 placeholder:text-slate-400 resize-none bg-white text-black rounded-md w-48"
+        className="pl-2 placeholder:text-slate-400 resize-none bg-black text-white rounded-md w-48"
       ></textarea>
+      {subtasks.length < 10 && <button onClick={addTask} className="bg-green-400 p-2 rounded-xl">Add task</button>}
       <ol className="list-decimal">{tasks}</ol>
       {/* TODO: visual grey out the button instead of making it dissapear */}
-      {subtasks.length < 10 && <button onClick={addTask} className="bg-green-400 p-2 rounded-xl">Add task</button>}
       {/* <PlusCircleIcon />  TODO figure the pics out*/}
     </div>
   );

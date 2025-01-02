@@ -1,19 +1,29 @@
 export default function SubTask({
   subTaskNumber,
   text,
+  update,
+  remove
 }: {
   subTaskNumber: number;
   text: string;
+  update: Function,
+  remove: Function
 }) {
+  
   return (
     <>
+      {/* FOR DEMO ONLY */}
       <p>Subtask id is: {subTaskNumber} </p>
+      <div className="">
       <textarea
+        onChange={(e) => update(subTaskNumber,e.target.value)}
         name="subTaskPrompt"
         placeholder="To achive my goal I need to..."
-        className="pl-2 placeholder:text-slate-400 resize-none bg-white text-black rounded-md w-96"
+        className="pl-2 placeholder:text-zinc-400 resize-none bg-zinc-900 text-white rounded-md w-96"
+        defaultValue={text}
       ></textarea>
-      <p> {text} </p>
+      <button onClick={() => remove(subTaskNumber)} className="bg-red-400 p-2 rounded-xl">Delete step</button>
+      </div>
     </>
   );
 }
