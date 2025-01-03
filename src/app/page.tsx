@@ -59,6 +59,8 @@ export default function Home() {
     <div className={styles.temp_style}>
       <label>Current Goal: {goal}</label>
       <br></br>
+      <br></br>
+      <div className="flex">
       <textarea
         value={goal}
         onChange={(e) => changeGoal(e.target.value)}
@@ -66,8 +68,11 @@ export default function Home() {
         placeholder="I want to make..."
         className="pl-2 placeholder:text-slate-400 resize-none bg-black text-white rounded-md w-48"
       ></textarea>
-      {subtasks.length < 10 && <button onClick={addTask} className="bg-green-400 p-2 rounded-xl">Add task</button>}
-      <ol className="list-decimal">{tasks}</ol>
+      <button onClick={addTask} className="ml-4 bg-green-400 p-2 rounded-xl">Add task</button>
+      </div>
+      <br></br>
+      <div className="ml-4 flex"><ol className="list-decimal">{tasks}</ol></div>
+      
       {/* TODO: visual grey out the button instead of making it dissapear */}
       {/* <PlusCircleIcon />  TODO figure the pics out*/}
     </div>

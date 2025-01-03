@@ -14,7 +14,7 @@ export default function SubTask({
     <>
       {/* FOR DEMO ONLY */}
       <p>Subtask id is: {subTaskNumber} </p>
-      <div className="">
+      <div className="flex">
       <textarea
         onChange={(e) => update(subTaskNumber,e.target.value)}
         name="subTaskPrompt"
@@ -22,7 +22,7 @@ export default function SubTask({
         className="pl-2 placeholder:text-zinc-400 resize-none bg-zinc-900 text-white rounded-md w-96"
         defaultValue={text}
       ></textarea>
-      <button onClick={() => remove(subTaskNumber)} className="bg-red-400 p-2 rounded-xl">Delete step</button>
+      <button onClick={() => remove(subTaskNumber)} className="ml-4 bg-red-400 p-2 rounded-xl">Delete step</button>
       </div>
     </>
   );
